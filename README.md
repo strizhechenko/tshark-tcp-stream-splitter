@@ -2,7 +2,7 @@
 
 Lua script for split big PCAP file in few little PCAP's by tcp stream id with **one** tshark run. It's **much** faster than:
 
-```
+``` shell
 mkdir -p very-big-file.pcap.parts/
 for tcp_stream in $(tshark -n -r very-big-file.pcap -T fields -e tcp.stream | sort -un | tail -1); do
     tshark -Y "tcp.stream eq ${tcp_stream}" -r very-big-file.pcap -w "very-big-file.pcap.parts/$tcp_stream.pcap"
