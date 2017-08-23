@@ -34,4 +34,4 @@ If there's a really lot of streams probably nothing will help you. You can use s
 
 | Size of PCAP, Mbytes | tcp packet count | tcp stream count | time | hardware |
 | ---- | ---- | ---- | ---- | ---- |
-| 41mb | 302868 | 14465 | 00:00:19 | Macbook Pro 2015 |
+| 41 | 302868 | 14465 | 00:00:19 | Macbook Pro 2015 |
