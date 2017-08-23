@@ -25,9 +25,8 @@ do
             local tcp_stream = assert(tonumber(tostring(tcp_stream_f())))
             local src_addr = assert(tostring(src_addr_f()))
             local syn = tonumber(tostring(tcp_syn_f()))
-            local index = tcp_stream + 1 -- in Lua arrays starts with 1 (and not with 0)
+            local index = tcp_stream + 1
             local part_pcap
-            -- print(string.format("lua: syn %d fin %d rst %d", syn, fin, rst))
             if streams_table[index] == nil then
                 part_pcap = string.format("%s.parts/%d.pcap", pcap_file, index)
                 streams_table[index] = {
@@ -36,25 +35,24 @@ do
                     finished = false,
                     client = src_addr,
                 }
-                -- lazy init in case of corrupted stream
-                if not streams_table[index].corrupted then
+                if streams_table[index].corrupted then
+                    streams_table[index].finished = true
+                else
                     streams_table[index].dumper = Dumper.new_for_current(part_pcap)
                 end
             end
             if streams_table[index].finished then
                 return
             end
-            if streams_table[index].corrupted then
-                streams_table[index].finished = true
-                print("lua: finish because corrupted")
-                return
-            end
             streams_table[index].dumper:dump_current()
-            if src_addr == streams_table[index].client and (tonumber(tostring(tcp_fin_f())) == 1 or tonumber(tostring(tcp_rst_f())) == 1) then
-                streams_table[index].dumper:flush()
-                print("lua: close because client's fin/rst")
-                streams_table[index].dumper:close()
-                streams_table[index].finished = true
+            if src_addr == streams_table[index].client then
+                local fin = tonumber(tostring(tcp_fin_f()))
+                local rst = tonumber(tostring(tcp_rst_f()))
+                if fin == 1 or rst == 1 then
+                    streams_table[index].dumper:flush()
+                    streams_table[index].dumper:close()
+                    streams_table[index].finished = true
+                end
             end
         end
     end
