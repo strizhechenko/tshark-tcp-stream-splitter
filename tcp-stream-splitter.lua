@@ -1,4 +1,6 @@
 do
+    local args = { ... }
+    assert(args[1], "You should pass -X lua_script1:$PATH_TO_SOURCE_PCAP_FILE")
     local streams_table = {}
     local tcp_stream_f = Field.new("tcp.stream")
 
@@ -20,7 +22,7 @@ do
             if streams_table[index] == nil then
                 streams_table[index] = {
                     tcp_stream = tcp_stream,
-                    dumper = Dumper.new_for_current(string.format("revisor.pcap.parts/%d.pcap", index))
+                    dumper = Dumper.new_for_current(string.format("%s.parts/%d.pcap", args[1], index))
                 }
             end
             streams_table[index].dumper:dump_current()
