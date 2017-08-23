@@ -15,7 +15,7 @@ because you don't need to reread entire PCAP for each tcp stream.
 # Usage
 
 ``` shell
-tshark -X lua_script:tcp-stream-splitter.lua -n -r very-big-file.pcap
+tshark -X lua_script:tcp-stream-splitter.lua -X lua_script1:very-big-file.pcap -n -r very-big-file.pcap
 ```
 
 Output files will be stored by pattern `$PWD/very-big-file.pcap.parts/$TCP_STREAM_ID.pcap`.
