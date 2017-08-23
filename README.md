@@ -19,3 +19,13 @@ tshark -X lua_script:tcp-stream-splitter.lua -X lua_script1:very-big-file.pcap -
 ```
 
 Output files will be stored by pattern `$PWD/very-big-file.pcap.parts/$TCP_STREAM_ID.pcap`.
+
+# Hints
+
+If there's a lot concurrent tcp streams in one big PCAP you may avoid [fail with to many opened file descriptor](https://github.com/strizhechenko/tshark-tcp-stream-splitter/issues/1) by set ulimit to maximal available value:
+
+```
+ulimit -n 1024
+```
+
+If there's a really lot of streams probably nothing will help you. You can use shell-script above (and add some "parallelism) with python/coproc) and have nice cup of coffee. If you can suggest an better solution of this problem feel free to open an issue or send pull request.
