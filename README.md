@@ -36,8 +36,8 @@ If there's a really lot of streams probably nothing will help you. You can use s
 
 | Size of PCAP, Mbytes | tcp packet count | tcp stream count | time | hardware | ulimit -n | remarks |
 | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
-| 41 | 302868 | 14465 | 00:00:19.000 | Macbook Pro 2015 | 2048 | -- |
-| 21 | 96682 | 13832 | 00:00:09.000 | Macbook Pro 2015 | 2048 | -- |
-| 0.224 | 1000 | 18 | 00:00:00.332 | Macbook Pro 2015 | 256 | -- |
 | 0.004 | 23 | 1 | 00:00:00.342 | Macbook Pro 2015 | 256 | -- |
+| 0.224 | 1000 | 18 | 00:00:00.332 | Macbook Pro 2015 | 256 | -- |
+| 21 | 96682 | 13832 | 00:00:09.000 | Macbook Pro 2015 | 2048 | -- |
+| 41 | 302868 | 14465 | 00:00:19.000 | Macbook Pro 2015 | 2048 | -- |
 | 283 | 967707 | 49239 | 00:01:10.303 | Macbook Pro 2015 | 8192 | failed after 967707 packet. exit by ^C |
