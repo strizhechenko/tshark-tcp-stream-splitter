@@ -8,6 +8,9 @@ do
     local tcp_fin_f = Field.new("tcp.flags.fin")
     local tcp_rst_f = Field.new("tcp.flags.reset")
     local src_addr_f = Field.new("ip.src")
+    local src_port_f = Field.new("tcp.srcport")
+    local dst_addr_f = Field.new("ip.dst")
+    local dst_port_f = Field.new("tcp.dstport")
 
     local function init_listener()
         local SYN = 2
@@ -24,11 +27,14 @@ do
         function tap.packet()
             local tcp_stream = assert(tonumber(tostring(tcp_stream_f())))
             local src_addr = assert(tostring(src_addr_f()))
+            local src_port = assert(tostring(src_port_f()))
+            local dst_addr = assert(tostring(dst_addr_f()))
+            local dst_port = assert(tostring(dst_port_f()))
             local syn = tonumber(tostring(tcp_syn_f()))
             local index = tcp_stream + 1
             local part_pcap
             if streams_table[index] == nil then
-                part_pcap = string.format("%s.parts/%d.pcap", pcap_file, index)
+                part_pcap = string.format("%s.parts/%s-%s_%s-%s_%d.pcap", pcap_file, src_addr, src_port, dst_addr, dst_port, index)
                 streams_table[index] = {
                     dumper = nil,
                     corrupted = not (syn == 1),
